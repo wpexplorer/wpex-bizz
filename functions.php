@@ -25,7 +25,7 @@
 /**
 	Constants
  **/
-define( 'WPEX_JS_DIR_URI', get_template_directory_uri().'/js' );
+define( 'WPEX_JS_DIR_URI', get_template_directory_uri() . '/js' );
 
 
 /**
@@ -33,14 +33,24 @@ define( 'WPEX_JS_DIR_URI', get_template_directory_uri().'/js' );
  **/
 if ( ! isset( $content_width ) ) $content_width = 1000;
 
+function wpex_theme_info() {
+	return array(
+		'name'    => 'WPEX Bizz',
+		'slug'    => 'wpex-bizz',
+		'url'     => 'https://www.wpexplorer.com/bizz-wordpress-theme/',
+		'support' => 'https://github.com/wpexplorer/wpex-bizz/issues',
+	);
+}
+
 // Theme setup - menus, theme support, etc
 require_once( get_template_directory() .'/functions/theme-setup.php' );
 
-// Recommend plugins for use with this theme
-require_once ( get_template_directory() .'/functions/recommend-plugins.php' );
-
-// Adds a feed metabox to the dashboard for the explorer network
-require_once ( get_template_directory() .'/functions/dashboard-feed.php' );
+if ( ! defined( 'WPEX_DISABLE_THEME_DASHBOARD_FEEDS' ) ) {
+	require_once get_parent_theme_file_path( '/admin/dashboard-feed.php' );
+}
+if ( ! defined( 'WPEX_DISABLE_THEME_ABOUT_PAGE' ) ) {
+	require_once get_parent_theme_file_path( '/admin/about.php' );
+}
 
 
 /**
@@ -99,9 +109,6 @@ if ( is_admin() ) {
 
 	// Post editor tweaks
 	require_once( get_template_directory() .'/functions/mce.php' );
-
-	// Welcome Screen
-	require_once ( get_template_directory() .'/functions/welcome.php' );
 
 // Non admin functions
 } else {
